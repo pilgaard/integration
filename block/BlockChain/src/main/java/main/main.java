@@ -16,35 +16,12 @@ import model.Transaction;
 public class main {
 
     public static void main(String[] args) {
-
-        GenerateBlockChain();
-        
+        BlockChainController bcc = new BlockChainController();
+        GenerateBlockChain(bcc);
+        manipulateBlockChain(bcc);
     }
 
-    private static void TestOne() {
-        BlockChainController bcc = new BlockChainController();
-        bcc.AddGenesisBlock();
-        bcc.AddBlock();
-        bcc.AddBlock();
-        bcc.AddBlock();
-        bcc.AddBlock();
-
-        bcc.ValidateBlockChain();
-
-        System.out.println("Adding new transaction to block 3 for testing");
-        Transaction t1 = new Transaction(100, "Andreas", "Emil");
-        bcc.AddTransactionToBlock(3, t1);
-
-        bcc.ValidateBlockChain();
-
-        bcc.MineBlock(3);
-
-        bcc.ValidateBlockChain();
-    }
-
-    private static void GenerateBlockChain() {
-        BlockChainController bcc = new BlockChainController();
-        
+    private static void GenerateBlockChain(BlockChainController bcc) {
         //add genesis block
         bcc.AddGenesisBlock();
 
@@ -89,7 +66,9 @@ public class main {
         bcc.AddTransactionToBlockChain(new Transaction(50, "Bo", "Josefine"));
         bcc.AddTransactionToBlockChain(new Transaction(15, "Emil", "Kasper"));
         bcc.AddTransactionToBlockChain(new Transaction(30, "Kasper", "Emil"));
-
+    }
+    
+    private static void manipulateBlockChain(BlockChainController bcc){
         //See if blockchain is valid
         bcc.ValidateBlockChain();
         
@@ -120,8 +99,6 @@ public class main {
         
         //validate to see if manual mines were succesful
         bcc.ValidateBlockChain();
-        
-
     }
 
     private static void printChain(BlockChainController bcc) {
