@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  peer1:
+    build: ./block
+    command: npm start
+    volumes:
+      - ./block:/usr/src/app
+    ports:
+      - "3000:3000"
+    environment:
+    - HOST=0.0.0.0
+    - PORT=3000
+
+  peer2:
+    build: ./block
+    command: npm start
+    volumes:
+      - ./block:/usr/src/app
+    ports:
+      - "3001:3000"
+    environment:
+    - HOST=0.0.0.0
+    - PORT=3000
