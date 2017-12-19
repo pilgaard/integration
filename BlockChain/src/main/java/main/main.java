@@ -6,8 +6,10 @@
 package main;
 
 import controller.BlockChainController;
+import java.io.IOException;
 import model.Block;
 import model.Transaction;
+import network.SocketHandler;
 
 /**
  *
@@ -15,10 +17,13 @@ import model.Transaction;
  */
 public class main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         BlockChainController bcc = new BlockChainController();
+        SocketHandler sh = new SocketHandler();
+        sh.blockChainController = bcc;
         GenerateBlockChain(bcc);
-        manipulateBlockChain(bcc);
+        //manipulateBlockChain(bcc);
+        sh.asd();
     }
 
     private static void GenerateBlockChain(BlockChainController bcc) {
@@ -69,6 +74,7 @@ public class main {
     }
     
     private static void manipulateBlockChain(BlockChainController bcc){
+        /*
         //See if blockchain is valid
         bcc.ValidateBlockChain();
         
@@ -99,6 +105,7 @@ public class main {
         
         //validate to see if manual mines were succesful
         bcc.ValidateBlockChain();
+                */
     }
 
     private static void printChain(BlockChainController bcc) {
@@ -107,6 +114,10 @@ public class main {
             System.out.println("Block " + currentBlock.getId() + " hash: " + currentBlock.getHash());
             System.out.println("Block " + currentBlock.getId() + " previous: " + currentBlock.getPrevious());
         }
+    }
+    
+    private static void openSocket(SocketHandler sh) throws IOException{
+        sh.asd();
     }
 
 }

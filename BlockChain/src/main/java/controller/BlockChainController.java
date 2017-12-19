@@ -5,6 +5,7 @@
  */
 package controller;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import model.Block;
 import model.Transaction;
@@ -38,20 +39,20 @@ public class BlockChainController {
         System.out.println("Block hash: " + blockToAdd.getHash());
     }
 
-    public boolean ValidateBlockChain() {
-        System.out.println("Validating BlockChain..");
+    public boolean ValidateBlockChain(PrintWriter out) {
+        out.println("Validating BlockChain..");
         int totalFails = 0;
         for (int i = 0; i < this.blockChain.size(); i++) {
             if (!this.blockChain.get(i).getHash().substring(0, 4).equals("0000")) {
-                System.out.println("Block with ID: " + this.blockChain.get(i).getId() + " failed.");
+                out.println("Block with ID: " + this.blockChain.get(i).getId() + " failed.");
                 totalFails++;
             }
         }
         if (totalFails == 0) {
-            System.out.println("Validation result: " + totalFails + " out of " + this.blockChain.size() + " failed.");
+            out.println("Validation result: " + totalFails + " out of " + this.blockChain.size() + " failed.");
             return true;
         } else {
-            System.out.println("Validation result: " + totalFails + " out of " + this.blockChain.size() + " failed.. - Please Mine Blocks and try again.");
+            out.println("Validation result: " + totalFails + " out of " + this.blockChain.size() + " failed.. - Please Mine Blocks and try again.");
             return false;
         }
     }
@@ -89,37 +90,46 @@ public class BlockChainController {
         }
     }
 
-    public void MineBlock(int blockID) {
-        System.out.println("Mining Block with ID: " + blockID);
+    public void MineBlock(int blockID, PrintWriter out) {
+        out.println("Mining Block with ID: " + blockID);
         Block blockToMine = this.blockChain.get(blockID - 1);
         while (!blockToMine.getHash().substring(0, 4).equals("0000")) {
             blockToMine.setNonce(blockToMine.getNonce() + 1);
             blockToMine.setHash(blockToMine.GenerateHash(blockToMine.getNonce(), blockToMine.getPrevious(), blockToMine.getTransactions()));
-            if(blockToMine.getHash().substring(0, 4).equals("0000")){
+            if (blockToMine.getHash().substring(0, 4).equals("0000")) {
                 UpdateBlocks(blockID);
             }
-
         }
     }
 
-    public void MineAndValidateAllBlocks() {
-        System.out.println("Mining all Blocks..");
+    public void MineAndValidateAllBlocks(PrintWriter out) {
+        out.println("Mining all Blocks..");
         for (int i = 0; i < this.blockChain.size(); i++) {
-            MineBlock(i + 1);
+            MineBlock(i + 1, out);
         }
-        ValidateBlockChain();
+        ValidateBlockChain(out);
     }
 
-    public void EditTransaction(int blockID, int transactionID, int newValue) {
+    public void EditTransaction(int blockID, int transactionID, int newValue, PrintWriter out) {
         try {
             Block blockToEdit = this.blockChain.get(blockID - 1);
             Transaction transactionToEdit = blockToEdit.getTransactions().get(transactionID - 1);
             transactionToEdit.setValue(newValue);
             UpdateBlocks(blockID);
-            ValidateBlockChain();
+            //ValidateBlockChain(out);
         } catch (ArrayIndexOutOfBoundsException ex) {
             System.out.println("The specified Block or Transaction does not exist.. Please Try again");
         }
+    }
+
+    public Transaction GetTransaction(int blockID, int transactionID) {
+        try {
+            Transaction t = this.blockChain.get(blockID).getTransactions().get(transactionID);
+            return t;
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            System.out.println("The specified Block or Transaction does not exist.. Please Try again");
+        }
+        return null;
     }
 
     public ArrayList<Block> getBlockChain() {
