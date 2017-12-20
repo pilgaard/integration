@@ -30,7 +30,7 @@ For at se de kørende containere kan følgende kommando køres
 
 Dette vil producere et resultat der ligner dette
 
-![containers](containers.png)
+![images/containers](containers.png)
 
 For at få adgang til en af noderne kan du køre følgende komando, her tilslutter vi til den der har port 10006
 og i en anden fane kan vi åbne til noden på port 10008
