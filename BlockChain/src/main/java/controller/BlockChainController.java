@@ -26,9 +26,9 @@ public class BlockChainController {
 
     public void AddGenesisBlock() {
         this.blockChain.add(new Block());
-        System.out.println("Added GenesisBlock to BlockChain:");
-        System.out.println("GenesisBlock id: " + this.blockChain.get(0).getId());
-        System.out.println("GenesisBlock hash: " + this.blockChain.get(0).getHash());
+        //System.out.println("Added GenesisBlock to BlockChain:");
+        //System.out.println("GenesisBlock id: " + this.blockChain.get(0).getId());
+        //System.out.println("GenesisBlock hash: " + this.blockChain.get(0).getHash());
     }
 
     public void AddBlock() {
@@ -36,13 +36,13 @@ public class BlockChainController {
         int newBlockId = blockChain.size() + 1;
         Block blockToAdd = new Block(newBlockId, lastBlock.getHash());
         this.blockChain.add(blockToAdd);
-        System.out.println("Added new Block to BlockChain:");
-        System.out.println("Block id: " + blockToAdd.getId());
-        System.out.println("Block hash: " + blockToAdd.getHash());
+        //System.out.println("Added new Block to BlockChain:");
+        //System.out.println("Block id: " + blockToAdd.getId());
+        //System.out.println("Block hash: " + blockToAdd.getHash());
     }
 
     public boolean ValidateBlockChain(PrintWriter out) {
-        System.out.println("Validating BlockChain..");
+        //System.out.println("Validating BlockChain..");
         out.println("Validating BlockChain..");
         int totalFails = 0;
         for (int i = 0; i < this.blockChain.size(); i++) {

@@ -89,6 +89,8 @@ public class PeerController {
         this.port = 10008;
         if (System.getenv("PEER_PORT") != null) {
             this.port = Integer.parseInt(System.getenv("PEER_PORT"));
+        }else{
+            System.out.println("PEER_PORT NOT FOUND");
         }
         System.out.println("Port: " + this.port);
         StartPeerServer();
