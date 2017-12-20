@@ -26,5 +26,5 @@ services:
       ports:
          - 10009:10009
       environment:
-         - PEERS=peer2:10008
+         - PEERS=peer3:10008
          - PEER_PORT=10009
