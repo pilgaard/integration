@@ -2,7 +2,9 @@
 ### Af Andreas Heindorff Larsen og Emil Pilgaard
 
 ## teknologier ##
-Vores Blockchain er bygget i Java med Maven.
+Vores Blockchain er bygget i Java med Maven.  
+Den er struktureret så ledes at hver block kan holde 5 Transaktionsobjekter. Hvis man forsøger at tilføje en transaktion til blockchainen, og den sidste Block allerede holder på 5, så vil der blive oprettet en ny block til at holde transaktionen.
+Disse transaktionsobjekter indeholder et beløb, modtager og afsender.
 
 Vi har en docker-compose fil som er sat til at starte 4 noder af vores Java program op.
 
@@ -48,13 +50,13 @@ Nu kan vi i den fane der har port 10008 åben skrive `view`
 
 ![view8](images/view8.png)
 
-Herefter kan vi prøve `add` i den fane der køre med por 10006
+Herefter kan vi prøve `add` i den fane der køre med port 10006
 
 ![add](images/add.png)
 
-derefter skal vi skrive et beløb til fram hvem og til hvem.
+derefter skal vi skrive et beløb til fra hvem og til hvem.
 
-Vi kan skrive `consult`, som vil vise hvor mang ændringer de forskellige noder har
+Vi kan skrive `consult`, som vil vise hvor mange ændringer de forskellige noder har
 
 ![consult](images/consult.png)
 
@@ -62,7 +64,7 @@ så kan vi skrive `update_peers` for at sende vores ændringer til de andre
 
 ![update](images/update.png)
 
-Hvis vi går tilbage til fanen med port 10008 og skriver `update` og derefter skriver `view` kan vi se at der nu er 9 transactions
+Hvis vi går tilbage til fanen med port 10008 og skriver `update` og derefter skriver `view` kan vi se at der nu er 9 blocks.
 
 ![view](images/view.png)
 
