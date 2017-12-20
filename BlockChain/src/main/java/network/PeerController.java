@@ -74,7 +74,6 @@ public class PeerController {
                     //DataOutputStream out = new DataOutputStream(socket.getOutputStream());
                     PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                     connected = true;
-                    out.println("validate");
                 } catch (Exception e) {
                     System.out.println("Not available..");
                     connected = false;

@@ -48,6 +48,14 @@ public class Block {
         }    
     }
     
+    public Block(int id, int nonce, String previous, String hash){
+        this.id = id;
+        this.nonce = nonce;
+        this.previous = previous;
+        this.hash = hash;
+        this.transactions = transactions;
+    }
+    
     public String GenerateHash(int nonce, String previous, ArrayList<Transaction> transactions){  
         String nonceString = Integer.toString(nonce); 
         String transactionString = "";

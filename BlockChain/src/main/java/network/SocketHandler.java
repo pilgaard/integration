@@ -5,6 +5,8 @@
  */
 package network;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import controller.BlockChainController;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,7 +18,12 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Block;
+import model.BlockResponse;
 import model.Transaction;
+import model.TransactionResponse;
+import model.UpdateResponse;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
@@ -28,11 +35,13 @@ public class SocketHandler implements Runnable {
     private Socket clientSocket;
     private PeerController peerController;
     private BufferedReader in;
+    private Gson gson;
 
     public SocketHandler(BlockChainController blockChainController, Socket clientSocket, PeerController peerController) {
         this.blockChainController = blockChainController;
         this.clientSocket = clientSocket;
         this.peerController = peerController;
+        this.gson = new GsonBuilder().create();
     }
 
     public void HandleClient() throws IOException, Exception {
@@ -53,7 +62,7 @@ public class SocketHandler implements Runnable {
             // ################## USER INPUTS ##################
             // #################################################
             if (inputLine.equals("help")) {
-                out.println("-------------------------- NODE SPECIFIC USER INPUTS --------------------------");
+                out.println("------------------------ NODE SPECIFIC USER INPUTS ------------------------");
                 out.println("'view' - See all Blocks in BlockChain");
                 out.println("'show' - Show specific Transaction in BlockChain");
                 out.println("'add' - Add new Transaction to BlockChain");
@@ -63,6 +72,7 @@ public class SocketHandler implements Runnable {
                 out.println("'valimine' - Mine and Validate BlockChain");
                 out.println("'close' - Close your connection to the node");
                 out.println("'consult' - Consult other peers");
+                out.println("'update_peers' - Updates the BlockChain of all nodes to the one of this node");
             }
 
             if (inputLine.equals("view")) {
@@ -141,19 +151,20 @@ public class SocketHandler implements Runnable {
             }
 
             if (inputLine.equals("update_peers")) {
-                //
+                out.println("Updating all peers..");
+                updatePeers(out);
+                out.println("Done");
             }
 
             // #################################################
             // #############  PEER COMMUNICATION  ##############
             // #################################################
             if (inputLine.equals("_changes")) {
-                System.out.println("changing stuff");
                 out.println(blockChainController.getNoOfChanges());
             }
 
-            if (inputLine.equals("_update")) {
-                //
+            if (inputLine.split(" ")[0].equals("_update")) {
+                handleUpdate((inputLine.split(" ")[1]), in);
             }
 
         }
@@ -191,6 +202,47 @@ public class SocketHandler implements Runnable {
         } else {
             clientWriter.println("BlockChains are equal");
         }
+    }
+
+    private void updatePeers(PrintWriter clientWriter) throws IOException {
+        String myJson = gson.toJson(blockChainController.getBlockChain());
+        blockChainController.setNoOfChanges(0);
+        PrintWriter out = new PrintWriter(peerController.getSocket().getOutputStream(), true);
+        out.println("_update " + myJson);
+    }
+
+    private void handleUpdate(String message, BufferedReader in) throws IOException {
+        String json = message;
+
+        JSONArray jData = new JSONArray(json);
+        System.out.println("recieved json data: " + jData);
+        ArrayList<Block> newBlockChain = new ArrayList<>();
+        ArrayList<Transaction> transactions;
+        for (int i = 0; i < jData.length(); i++) {
+            transactions = new ArrayList<>();
+            JSONObject jObj = jData.getJSONObject(i);
+            Block newBlock = new Block(
+                    jObj.getInt("id"),
+                    jObj.getInt("nonce"),
+                    jObj.getString("previous"),
+                    jObj.getString("hash")
+            );
+            JSONArray jTransactions = jObj.getJSONArray("transactions");
+            for (int j = 0; j < jTransactions.length(); j++) {
+                JSONObject transJObj = jTransactions.getJSONObject(j);
+                System.out.println("Object: " + transJObj);
+                Transaction newTransactions = new Transaction(
+                        transJObj.getInt("value"),
+                        transJObj.getString("from"),
+                        transJObj.getString("to")
+                );
+                transactions.add(newTransactions);
+            }
+            newBlock.setTransactions(transactions);
+            newBlockChain.add(newBlock);
+        }
+        blockChainController.setBlockChain(newBlockChain);
+        blockChainController.setNoOfChanges(0);
     }
 
     private void closeClient(PrintWriter out, BufferedReader in, Socket clientSocket) throws IOException {
