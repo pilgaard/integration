@@ -74,11 +74,14 @@ public class PeerController {
     public void ConnectToPeers() {
         for (String peer : peers) {
             String[] parts = peer.split(":");
-            try {
-                Socket socket = new Socket(parts[0], Integer.parseInt(parts[1]));
-                peerSockets.add(socket);
-            } catch (Exception e) {
-                System.out.println("Not available..");
+            while (true) {
+                try {
+                    Socket socket = new Socket(parts[0], Integer.parseInt(parts[1]));
+                    peerSockets.add(socket);
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Not available..");
+                }
             }
         }
     }
@@ -90,10 +93,12 @@ public class PeerController {
         }
         System.out.println("Port: " + this.port);
         StartPeerServer();
-        if (System.getenv("PEERS") != null & System.getenv("PEERS") != null & System.getenv("PEERS") != null) {
+        if (System.getenv("PEERS1") != null & System.getenv("PEERS2") != null & System.getenv("PEERS3") != null) {
             peers.add(System.getenv("PEER1"));
             peers.add(System.getenv("PEER2"));
             peers.add(System.getenv("PEER3"));
+        } else {
+            peers.add("localhost:10007");
         }
     }
 
