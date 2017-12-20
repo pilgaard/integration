@@ -1,0 +1,5 @@
+FROM openjdk:8
+
+ADD /target/BlockChain-1.0-SNAPSHOT.jar app.jar
+
+CMD ["/usr/bin/java", "-cp", "app.jar", "main.main"]
