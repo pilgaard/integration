@@ -32,6 +32,6 @@ Dette vil producere et resultat der ligner dette
 
 ![containers](containers.png)
 
-For at få adgang til en af noderne kan du køre følgende komando, her tilslutter vi til den der har port 10008
+For at få adgang til en af noderne kan du køre følgende komando, her tilslutter vi til den der har port 10006
 
-`telnet 0.0.0.0:10008`
+`telnet localhost 10006`
