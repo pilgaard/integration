@@ -86,7 +86,7 @@ public class PeerController {
     }
 
     public void Start() throws IOException {
-        this.port = 10006;
+        this.port = 10008;
         if (System.getenv("PEER_PORT") != null) {
             this.port = Integer.parseInt(System.getenv("PEER_PORT"));
         }
@@ -103,8 +103,8 @@ public class PeerController {
         } else {
             System.out.println("SOMETHING WENT WRONG");
             //Just for testing purposes
+            peers.add("localhost:10006");
             peers.add("localhost:10007");
-            peers.add("localhost:10008");
         }
     }
 
