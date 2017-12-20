@@ -22,7 +22,7 @@ public class main {
         BlockChainController bcc = new BlockChainController();
         PeerController pc = new PeerController(bcc);
         GenerateBlockChain(bcc);
-        pc.StartPeerServer();
+        pc.Start();
         pc.ConnectToPeers();
     }
 

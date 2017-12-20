@@ -63,7 +63,7 @@ public class BlockChainController {
     public void AddTransactionToBlock(int id, Transaction transactionToAdd) {
         Block blockToUpdate = this.blockChain.get(id - 1);
         blockToUpdate.getTransactions().add(transactionToAdd);
-        System.out.println(transactionToAdd.getFrom() + " transfered " + transactionToAdd.getValue() + " to " + transactionToAdd.getTo());
+        //System.out.println(transactionToAdd.getFrom() + " transfered " + transactionToAdd.getValue() + " to " + transactionToAdd.getTo());
         UpdateBlocks(id);
     }
 
