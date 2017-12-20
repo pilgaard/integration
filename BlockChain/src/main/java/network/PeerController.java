@@ -22,7 +22,6 @@ public class PeerController {
     ServerSocket serverSocket;
     BlockChainController blockChainController;
     List<SocketHandler> activeSockets;
-    //Socket socket;
     ArrayList<Socket> peerSockets;
     PeerController self;
     ArrayList<String> peers;
@@ -32,8 +31,6 @@ public class PeerController {
     int port = 10008;
     String otherPeer = "localhost:10007";
 
-    //int port = 10007;
-    //String otherPeer = "localhost:10008";
     public PeerController(BlockChainController blockChainController) {
         this.self = this;
         this.blockChainController = blockChainController;
@@ -81,7 +78,7 @@ public class PeerController {
                         peerSockets.add(socket);
                         connected = true;
                     } catch (Exception e) {
-                        System.out.println("Not available..");
+                        //System.out.println("Not available..");
                         connected = false;
                     }
                 }
@@ -96,10 +93,15 @@ public class PeerController {
         System.out.println("Port: " + this.port);
         StartPeerServer();
         if (System.getenv("PEERS1") != null & System.getenv("PEERS2") != null & System.getenv("PEERS3") != null) {
+            System.out.println("ADDING PEERS FROM SYSTEM ENVIRONMENT");
             peers.add(System.getenv("PEER1"));
             peers.add(System.getenv("PEER2"));
             peers.add(System.getenv("PEER3"));
+            for(String p : peers){
+                System.out.println("THESE ARE THE PEER ADRESSES: " + p);
+            }
         } else {
+            System.out.println("SOMETHING WENT WRONG");
             //Just for testing purposes
             peers.add("localhost:10007");
             peers.add("localhost:10008");
