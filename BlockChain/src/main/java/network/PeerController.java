@@ -74,15 +74,17 @@ public class PeerController {
     public void ConnectToPeers() {
         for (String peer : peers) {
             String[] parts = peer.split(":");
-            while (true) {
-                try {
-                    Socket socket = new Socket(parts[0], Integer.parseInt(parts[1]));
-                    peerSockets.add(socket);
-                    break;
-                } catch (Exception e) {
-                    System.out.println("Not available..");
+            boolean connected = false;
+                while (connected == false) {
+                    try {
+                        Socket socket = new Socket(parts[0], Integer.parseInt(parts[1]));
+                        peerSockets.add(socket);
+                        connected = true;
+                    } catch (Exception e) {
+                        System.out.println("Not available..");
+                        connected = false;
+                    }
                 }
-            }
         }
     }
 
@@ -98,7 +100,9 @@ public class PeerController {
             peers.add(System.getenv("PEER2"));
             peers.add(System.getenv("PEER3"));
         } else {
+            //Just for testing purposes
             peers.add("localhost:10007");
+            peers.add("localhost:10008");
         }
     }
 
