@@ -34,7 +34,6 @@ public class PeerController {
 
     //int port = 10007;
     //String otherPeer = "localhost:10008";
-
     public PeerController(BlockChainController blockChainController) {
         this.self = this;
         this.blockChainController = blockChainController;
@@ -73,20 +72,13 @@ public class PeerController {
     }
 
     public void ConnectToPeers() {
-        for ( String peer : peers ) {
-            boolean connected = false;
+        for (String peer : peers) {
             String[] parts = peer.split(":");
-            while (true) {
-                while (connected != true) {
-                    try {
-                        Socket socket = new Socket(parts[0], Integer.parseInt(parts[1]));
-                        peerSockets.add(socket);
-                        connected = true;
-                    } catch (Exception e) {
-                        System.out.println("Not available..");
-                        connected = false;
-                    }
-                }
+            try {
+                Socket socket = new Socket(parts[0], Integer.parseInt(parts[1]));
+                peerSockets.add(socket);
+            } catch (Exception e) {
+                System.out.println("Not available..");
             }
         }
     }
@@ -108,7 +100,5 @@ public class PeerController {
     public ArrayList<Socket> getPeerSockets() {
         return peerSockets;
     }
-
-    
 
 }
