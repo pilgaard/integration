@@ -17,6 +17,18 @@ For at starte de fire noder op skal der køres denne komando
 
 `sh run.sh` 
 
-herefter vil der blive startet fire noder op som vil køre localhost og vil benytte port 10006-10009
+Herefter vil der blive startet fire noder op som vil køre localhost og vil benytte port 10006-10009
 
+## Connect ##
 
+For at se de kørende containere kan følgende kommando køres
+
+`docker ps`
+
+Dette vil producere et resultat der ligner dette
+
+![containers](containers.png)
+
+Vi kan derefter køre denne komando for at komme ind i en af containerne 
+
+`sudo docker exec -i -t <Container name> /bin/bash`
