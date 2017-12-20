@@ -22,24 +22,32 @@ public class PeerController {
     ServerSocket serverSocket;
     BlockChainController blockChainController;
     List<SocketHandler> activeSockets;
-    Socket socket;
+    //Socket socket;
+    ArrayList<Socket> peerSockets;
     PeerController self;
+    ArrayList<String> peers;
+    ArrayList<String> connectedPeers;
 
     //Temporary -- Run main - comment in other information.. run another instance
-    int serverPort = 10008;
+    int port = 10008;
     String otherPeer = "localhost:10007";
-    //int serverPort = 10007;
+
+    //int port = 10007;
     //String otherPeer = "localhost:10008";
+
     public PeerController(BlockChainController blockChainController) {
         this.self = this;
         this.blockChainController = blockChainController;
         this.activeSockets = new ArrayList();
+        this.peers = new ArrayList();
+        this.peerSockets = new ArrayList();
+        this.connectedPeers = new ArrayList();
     }
 
     public int StartPeerServer() throws IOException {
         while (true) {
             try {
-                serverSocket = new ServerSocket(serverPort);
+                serverSocket = new ServerSocket(port);
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -59,32 +67,52 @@ public class PeerController {
             } catch (Exception e) {
                 //exception handle
             }
-            return serverPort;
-            //System.out.println("Server on: " + InetAddress.getLocalHost().getHostAddress() + " port: " + serverPort);
+            return port;
+            //System.out.println("Server on: " + InetAddress.getLocalHost().getHostAddress() + " port: " + port);
         }
     }
 
     public void ConnectToPeers() {
-        String[] parts = otherPeer.split(":");
-        boolean connected = false;
-        while (true) {
-            while (connected != true) {
-                try {
-                    socket = new Socket(parts[0], Integer.parseInt(parts[1]));
-                    //DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-                    PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                    connected = true;
-                } catch (Exception e) {
-                    System.out.println("Not available..");
-                    connected = false;
+        for ( String peer : peers ) {
+            boolean connected = false;
+            String[] parts = peer.split(":");
+            while (true) {
+                while (connected != true) {
+                    try {
+                        Socket socket = new Socket(parts[0], Integer.parseInt(parts[1]));
+                        //DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+                        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                        for(String p : connectedPeers){
+                            if(!peer.equals(p)) peerSockets.add(socket);
+                        }
+                        connected = true;
+                    } catch (Exception e) {
+                        System.out.println("Not available..");
+                        connected = false;
+                    }
                 }
             }
         }
     }
 
-    public Socket getSocket() {
-        return socket;
+    public void Start() throws IOException {
+        this.port = 10006;
+        if (System.getenv("PEER_PORT") != null) {
+            this.port = Integer.parseInt(System.getenv("PEER_PORT"));
+        }
+        System.out.println("Port: " + this.port);
+        StartPeerServer();
+        if (System.getenv("PEERS") != null & System.getenv("PEERS") != null & System.getenv("PEERS") != null) {
+            peers.add(System.getenv("PEER1"));
+            peers.add(System.getenv("PEER2"));
+            peers.add(System.getenv("PEER3"));
+        }
     }
+
+    public ArrayList<Socket> getPeerSockets() {
+        return peerSockets;
+    }
+
     
-    
+
 }

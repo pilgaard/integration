@@ -172,23 +172,27 @@ public class SocketHandler implements Runnable {
         int myChanges = blockChainController.getNoOfChanges();
         List<Integer> changeData = new ArrayList<>();
         int totalData = 0;
-        PrintWriter out = new PrintWriter(peerController.getSocket().getOutputStream(), true);
-        BufferedReader in = new BufferedReader(new InputStreamReader(peerController.getSocket().getInputStream()));
-        out.println("_changes");
 
-        String currentLine;
-        while ((currentLine = in.readLine()) != null) {
-            try {
-                Integer.parseInt(currentLine);
-                break;
-            } catch (Exception e) {
-                System.out.println("was not a number: " + currentLine);
+        for (Socket s : peerController.getPeerSockets()) {
+
+            PrintWriter out = new PrintWriter(s.getOutputStream(), true);
+            BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+            out.println("_changes");
+
+            String currentLine;
+            while ((currentLine = in.readLine()) != null) {
+                try {
+                    Integer.parseInt(currentLine);
+                    break;
+                } catch (Exception e) {
+                    System.out.println("was not a number: " + currentLine);
+                }
             }
-        }
-        changeData.add(Integer.parseInt(currentLine));
-        for (int data : changeData) {
-            clientWriter.println("Other node is at: " + data + " changes");
-            totalData = totalData + data;
+            changeData.add(Integer.parseInt(currentLine));
+            for (int data : changeData) {
+                clientWriter.println("Other node is at: " + data + " changes");
+                totalData = totalData + data;
+            }
         }
         int avgData = totalData / changeData.size();
         clientWriter.println("This node is at: " + myChanges + " changes");
@@ -204,8 +208,10 @@ public class SocketHandler implements Runnable {
     private void updatePeers(PrintWriter clientWriter) throws IOException {
         String myJson = gson.toJson(blockChainController.getBlockChain());
         blockChainController.setNoOfChanges(0);
-        PrintWriter out = new PrintWriter(peerController.getSocket().getOutputStream(), true);
-        out.println("_update " + myJson);
+        for (Socket s : peerController.getPeerSockets()) {
+            PrintWriter out = new PrintWriter(s.getOutputStream(), true);
+            out.println("_update " + myJson);
+        }
     }
 
     private void handleUpdate(String message, BufferedReader in) throws IOException {
