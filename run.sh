@@ -1,4 +1,6 @@
+cd ./Peer
 mvn clean
 mvn package
 docker build -t peer .
-docker run peer
+cd ..
+docker-compose up --build

@@ -1,0 +1,22 @@
+version: '3'
+services:
+   peer1:
+      build: ./BlockChain/
+      ports:
+         - 10006:10006
+      environment:
+         - PEER_PORT=10006
+   peer2:
+      build: ./BlockChain/
+      ports:
+         - 10007:10007  
+      environment:
+         - PEERS=peer1:10006
+         - PEER_PORT=10007
+   peer3:
+      build: ./BlockChain/
+      ports:
+         - 10008:10008
+      environment:
+         - PEERS=peer2:10007
+         - PEER_PORT=10008
