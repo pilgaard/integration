@@ -74,7 +74,7 @@ public class BlockChainController {
             latestBlock = this.blockChain.get(this.blockChain.size() - 1);
         }
         latestBlock.getTransactions().add(transactionToAdd);
-        System.out.println(transactionToAdd.getFrom() + " transfered " + transactionToAdd.getValue() + " to " + transactionToAdd.getTo());
+        //System.out.println(transactionToAdd.getFrom() + " transfered " + transactionToAdd.getValue() + " to " + transactionToAdd.getTo());
         UpdateBlocks(latestBlock.getId());
         this.noOfChanges++;
     }

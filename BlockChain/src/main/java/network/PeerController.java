@@ -92,7 +92,7 @@ public class PeerController {
         }
         System.out.println("Port: " + this.port);
         StartPeerServer();
-        if (System.getenv("PEERS1") != null & System.getenv("PEERS2") != null & System.getenv("PEERS3") != null) {
+        if (System.getenv("PEERS1") != null && System.getenv("PEERS2") != null && System.getenv("PEERS3") != null) {
             System.out.println("ADDING PEERS FROM SYSTEM ENVIRONMENT");
             peers.add(System.getenv("PEER1"));
             peers.add(System.getenv("PEER2"));
