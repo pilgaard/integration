@@ -171,7 +171,7 @@ public class SocketHandler implements Runnable {
     private void consultPeers(PrintWriter clientWriter) throws IOException, InterruptedException, Exception {
         int myChanges = blockChainController.getNoOfChanges();
         List<Integer> changeData = new ArrayList<>();
-        int totalData = 0;
+        int highest = 0;
 
         for (Socket s : peerController.getPeerSockets()) {
 
@@ -189,16 +189,18 @@ public class SocketHandler implements Runnable {
                 }
             }
             changeData.add(Integer.parseInt(currentLine));
-            for (int data : changeData) {
-                clientWriter.println("Other node is at: " + data + " changes");
-                totalData = totalData + data;
+        }
+        for (int data : changeData) {
+            clientWriter.println("Other node is at: " + data + " changes");
+            if (data > highest) {
+                highest = data;
             }
         }
-        int avgData = totalData / changeData.size();
+        //int avgData = totalData / changeData.size();
         clientWriter.println("This node is at: " + myChanges + " changes");
-        if (myChanges > avgData) {
+        if (myChanges > highest) {
             clientWriter.println("This BlockChain is ahead");
-        } else if (myChanges < avgData) {
+        } else if (myChanges < highest) {
             clientWriter.println("This BlockChain is behind");
         } else {
             clientWriter.println("BlockChains are equal");

@@ -80,11 +80,7 @@ public class PeerController {
                 while (connected != true) {
                     try {
                         Socket socket = new Socket(parts[0], Integer.parseInt(parts[1]));
-                        //DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-                        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                        for(String p : connectedPeers){
-                            if(!peer.equals(p)) peerSockets.add(socket);
-                        }
+                        peerSockets.add(socket);
                         connected = true;
                     } catch (Exception e) {
                         System.out.println("Not available..");
