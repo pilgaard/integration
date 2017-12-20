@@ -32,6 +32,6 @@ Dette vil producere et resultat der ligner dette
 
 ![containers](containers.png)
 
-Vi kan derefter køre denne komando for at komme ind i en af containerne 
+For at få adgang til en af noderne kan du køre følgende komando, her tilslutter vi til den der har port 10008
 
-`sudo docker exec -i -t <Container name> /bin/bash`
+`telnet 0.0.0.0:10008`
