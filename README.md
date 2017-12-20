@@ -65,3 +65,18 @@ så kan vi skrive `update_peers` for at sende vores ændringer til de andre
 Hvis vi går tilbage til fanen med port 10008 og skriver `update` og derefter skriver `view` kan vi se at der nu er 9 transactions
 
 ![view](view.png)
+
+For at få BlockChainen til at overholde en consensus algoritm, kan validate kommandoen bruges til at se hvilke blocks der overholder algoritmen, og hvilke der ikke gør.
+Valimine kommandoen vil mine alle blocks i blockchainen, og mine kommandoen vil bruges til at mine én specifik block.
+Algoritmen gør det let at se med det blotte øje når der bliver foretaget en ændring i en BlockChain, da hash værdierne vil blive opdateret, så de ikke længere indeholder "0000" i starten af hashen.
+
+## Referencer ##
+
+https://stackoverflow.com/questions/33021084/how-to-handle-ip-addresses-when-linking-docker-containers-with-each-other-using
+https://www.igvita.com/2014/05/05/minimum-viable-block-chain/
+https://anders.com/blockchain/
+https://youtu.be/_160oMzblY8
+https://docs.oracle.com/javase/7/docs/api/java/net/Socket.html
+https://docs.oracle.com/javase/7/docs/api/java/io/BufferedReader.html
+https://docs.oracle.com/javase/7/docs/api/java/io/PrintWriter.html
+https://www.youtube.com/watch?v=baJYhYsHkLM
