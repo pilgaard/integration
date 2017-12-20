@@ -9,6 +9,7 @@ import controller.BlockChainController;
 import java.io.IOException;
 import model.Block;
 import model.Transaction;
+import network.PeerController;
 import network.SocketHandler;
 
 /**
@@ -19,11 +20,10 @@ public class main {
 
     public static void main(String[] args) throws IOException {
         BlockChainController bcc = new BlockChainController();
-        SocketHandler sh = new SocketHandler();
-        sh.blockChainController = bcc;
+        PeerController pc = new PeerController(bcc);
         GenerateBlockChain(bcc);
-        //manipulateBlockChain(bcc);
-        sh.asd();
+        pc.StartPeerServer();
+        pc.ConnectToPeers();
     }
 
     private static void GenerateBlockChain(BlockChainController bcc) {
@@ -71,6 +71,7 @@ public class main {
         bcc.AddTransactionToBlockChain(new Transaction(50, "Bo", "Josefine"));
         bcc.AddTransactionToBlockChain(new Transaction(15, "Emil", "Kasper"));
         bcc.AddTransactionToBlockChain(new Transaction(30, "Kasper", "Emil"));
+        bcc.setNoOfChanges(0);
     }
     
     private static void manipulateBlockChain(BlockChainController bcc){
@@ -117,7 +118,7 @@ public class main {
     }
     
     private static void openSocket(SocketHandler sh) throws IOException{
-        sh.asd();
+        //sh.asd();
     }
 
 }

@@ -17,9 +17,11 @@ import model.Transaction;
 public class BlockChainController {
 
     ArrayList<Block> blockChain;
+    int noOfChanges;
 
     public BlockChainController() {
         this.blockChain = new ArrayList<>();
+        this.noOfChanges = 0;
     }
 
     public void AddGenesisBlock() {
@@ -40,6 +42,7 @@ public class BlockChainController {
     }
 
     public boolean ValidateBlockChain(PrintWriter out) {
+        System.out.println("Validating BlockChain..");
         out.println("Validating BlockChain..");
         int totalFails = 0;
         for (int i = 0; i < this.blockChain.size(); i++) {
@@ -73,6 +76,7 @@ public class BlockChainController {
         latestBlock.getTransactions().add(transactionToAdd);
         System.out.println(transactionToAdd.getFrom() + " transfered " + transactionToAdd.getValue() + " to " + transactionToAdd.getTo());
         UpdateBlocks(latestBlock.getId());
+        this.noOfChanges++;
     }
 
     public void UpdateBlocks(int id) {
@@ -100,6 +104,7 @@ public class BlockChainController {
                 UpdateBlocks(blockID);
             }
         }
+        this.noOfChanges++;
     }
 
     public void MineAndValidateAllBlocks(PrintWriter out) {
@@ -108,6 +113,7 @@ public class BlockChainController {
             MineBlock(i + 1, out);
         }
         ValidateBlockChain(out);
+        this.noOfChanges++;
     }
 
     public void EditTransaction(int blockID, int transactionID, int newValue, PrintWriter out) {
@@ -120,6 +126,7 @@ public class BlockChainController {
         } catch (ArrayIndexOutOfBoundsException ex) {
             System.out.println("The specified Block or Transaction does not exist.. Please Try again");
         }
+        this.noOfChanges++;
     }
 
     public Transaction GetTransaction(int blockID, int transactionID) {
@@ -138,6 +145,14 @@ public class BlockChainController {
 
     public void setBlockChain(ArrayList<Block> blockChain) {
         this.blockChain = blockChain;
+    }
+
+    public int getNoOfChanges() {
+        return noOfChanges;
+    }
+
+    public void setNoOfChanges(int noOfChanges) {
+        this.noOfChanges = noOfChanges;
     }
 
 }
