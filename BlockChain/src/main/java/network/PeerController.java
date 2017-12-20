@@ -8,6 +8,7 @@ package network;
 import controller.BlockChainController;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class PeerController {
                     public void run() {
                         while (true) {
                             try {
-                                System.out.println("Accepting connections");
+                                System.out.println("Accepting connections @ " + InetAddress.getLocalHost().getHostAddress() + " with port: " + port);
                                 Socket clientSocket = serverSocket.accept();
                                 SocketHandler socketHandler = new SocketHandler(blockChainController, clientSocket, self);
                                 activeSockets.add(socketHandler);

@@ -43,7 +43,7 @@ public class SocketHandler implements Runnable {
 
     public void HandleClient() throws IOException, Exception {
 
-        System.out.println("Connection successful");
+        System.out.println("Connection successful: " + clientSocket.getInetAddress());
         PrintWriter out = new PrintWriter(clientSocket.getOutputStream(),
                 true);
         in = new BufferedReader(
