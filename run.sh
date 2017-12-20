@@ -1,4 +1,4 @@
-cd ./Peer
+cd ./BlockChain
 mvn clean
 mvn package
 docker build -t peer .

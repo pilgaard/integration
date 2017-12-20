@@ -6,37 +6,34 @@ services:
          - 10006:10006
       environment:
          - PEER_PORT=10006
-		 - PEER1=peer1:10007
-		 - PEER2=peer1:10008
-		 - PEER3=peer1:10009
+         - PEER2=peer2:10007
+         - PEER3=peer3:10008
+         - PEER4=peer4:10009
    peer2:
       build: ./BlockChain/
       ports:
          - 10007:10007
       environment:
-         - PEERS=peer1:10006
          - PEER_PORT=10007
-		 - PEER1=peer1:10006
-		 - PEER2=peer1:10008
-		 - PEER3=peer1:10009
+         - PEER1=peer1:10006
+         - PEER3=peer3:10008
+         - PEER4=peer4:10009
    peer3:
       build: ./BlockChain/
       ports:
          - 10008:10008
       environment:
-         - PEERS=peer2:10007
          - PEER_PORT=10008
-		 - PEER1=peer1:10006
-		 - PEER2=peer1:10007
-		 - PEER3=peer1:10009
+         - PEER1=peer1:10006
+         - PEER2=peer2:10007
+         - PEER4=peer4:10009
 
    peer4:
       build: ./BlockChain/
       ports:
          - 10009:10009
       environment:
-         - PEERS=peer3:10008
          - PEER_PORT=10009
-		 - PEER1=peer1:10006
-		 - PEER2=peer1:10007
-		 - PEER3=peer1:10008
+         - PEER1=peer1:10006
+         - PEER2=peer2:10007
+         - PEER3=peer3:10008
