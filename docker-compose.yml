@@ -34,6 +34,6 @@ services:
          - 10009:10009
       environment:
          - PEER_PORT=10009
-         - PEER1=peer1:10006
-         - PEER2=peer2:10007
-         - PEER3=peer3:10008
+         - PEER1=localhost:10006
+         - PEER2=localhost:10007
+         - PEER3=localhost:10008
