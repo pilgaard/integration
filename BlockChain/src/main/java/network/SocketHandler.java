@@ -18,10 +18,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Block;
-import model.BlockResponse;
 import model.Transaction;
-import model.TransactionResponse;
-import model.UpdateResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
