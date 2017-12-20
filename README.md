@@ -6,11 +6,14 @@ Vores Blockchain er bygget i Java med Maven.
 
 Vi har en docker-compose fil som er sat til at starte 4 noder af vores Java program op.
 
+Vi vil bruge telnet til at interagere med vores blockchain.
+
 For at køre systemet skal du derfor have installeret følgende:
 
 * Java
 * Maven
 * Docker
+* telnet
 
 ## Setup ##
 For at starte de fire noder op skal der køres denne komando
