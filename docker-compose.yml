@@ -9,7 +9,7 @@ services:
    peer2:
       build: ./BlockChain/
       ports:
-         - 10007:10007  
+         - 10007:10007
       environment:
          - PEERS=peer1:10006
          - PEER_PORT=10007
@@ -20,3 +20,11 @@ services:
       environment:
          - PEERS=peer2:10007
          - PEER_PORT=10008
+
+   peer4:
+      build: ./BlockChain/
+      ports:
+         - 10009:10009
+      environment:
+         - PEERS=peer2:10008
+         - PEER_PORT=10009
